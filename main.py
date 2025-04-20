@@ -1,6 +1,6 @@
 import os
 
-VEHICLE_FILE = 'vehicles.txt'
+VEHICLE_FILE = 'AllowedVehiclesList.txt'
 
 def load_vehicles():
     if not os.path.exists(VEHICLE_FILE):
@@ -14,7 +14,7 @@ def save_vehicles(vehicles):
             f.write(v + '\n')
 
 def display_banner():
-    title = "AutoCountry Vehicle Finder v0.5"
+    title = "AutoCountry Vehicle Finder v0.6"
     border = "*" * len(title)
     print(border)
     print(title)
@@ -35,7 +35,7 @@ def list_vehicles(vehicles):
     print()
 
 def search_vehicle(vehicles):
-    print("*" *  len("AutoCountry Vehicle Finder v0.5"))
+    print("*" *  len("AutoCountry Vehicle Finder v0.6"))
     name = input("Please Enter the full Vehicle name: ").strip()
     if name in vehicles:
         print(f"{name} is an authorized vehicle")
@@ -44,7 +44,7 @@ def search_vehicle(vehicles):
     print()
 
 def add_vehicle(vehicles):
-    print("*" *  len("AutoCountry Vehicle Finder v0.5"))
+    print("*" *  len("AutoCountry Vehicle Finder v0.6"))
     name = input("Please Enter the full Vehicle name you would like to add: ").strip()
     if name and name not in vehicles:
         vehicles.append(name)
@@ -55,7 +55,7 @@ def add_vehicle(vehicles):
     print()
 
 def delete_vehicle(vehicles):
-    print("*" *  len("AutoCountry Vehicle Finder v0.5"))
+    print("*" *  len("AutoCountry Vehicle Finder v0.6"))
     name = input("Please Enter the full Vehicle name you would like to REMOVE: ").strip()
     confirm = input(f'Are you sure you want to remove "{name}" from the Authorized Vehicles List? ').lower()
     if confirm in ("y","yes"):
