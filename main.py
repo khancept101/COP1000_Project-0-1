@@ -1,5 +1,27 @@
+import os
+
+VEHICLE_FILE = 'AllowedVehiclesList.txt'
+
+
+def load_vehicles():
+    # Ensure the file exists
+    if not os.path.exists(VEHICLE_FILE):
+        open(VEHICLE_FILE, 'w').close()
+    vehicles = []
+    with open(VEHICLE_FILE, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                vehicles.append(line)
+    return vehicles
+
+def save_vehicles(vehicles):
+    with open(VEHICLE_FILE, 'w') as f:
+        for v in vehicles:
+            f.write(v + '\n')
+
 def display_banner():
-    title = "AutoCountry Vehicle Finder v0.4"
+    title = "AutoCountry Vehicle Finder v0.5"
     border = "*" * len(title)
     print(border)
     print(title)
@@ -15,13 +37,14 @@ def display_menu():
     print("5. Exit")
 
 def list_vehicles(vehicles):
+    print()
     print("The AutoCountry sales manager has authorized the purchase and selling of the following vehicles:")
     for v in vehicles:
         print(v)
     print()
 
 def search_vehicle(vehicles):
-    border = "*" * len("AutoCountry Vehicle Finder v0.4")
+    border = "*" * len("AutoCountry Vehicle Finder v0.5")
     print(border)
     print("Please Enter the full Vehicle name:")
     name = input().strip()
@@ -32,16 +55,20 @@ def search_vehicle(vehicles):
     print()
 
 def add_vehicle(vehicles):
-    border = "*" * len("AutoCountry Vehicle Finder v0.4")
+    border = "*" * len("AutoCountry Vehicle Finder v0.5")
     print(border)
     print("Please Enter the full Vehicle name you would like to add:")
     name = input().strip()
-    vehicles.append(name)
-    print(f"You have added \"{name}\" as an authorized vehicle")
+    if name and name not in vehicles:
+        vehicles.append(name)
+        save_vehicles(vehicles)
+        print(f"You have added \"{name}\" as an authorized vehicle")
+    else:
+        print(f"\"{name}\" is already in the authorized list or invalid entry")
     print()
 
 def delete_vehicle(vehicles):
-    border = "*" * len("AutoCountry Vehicle Finder v0.4")
+    border = "*" * len("AutoCountry Vehicle Finder v0.5")
     print(border)
     print("Please Enter the full Vehicle name you would like to REMOVE:")
     name = input().strip()
@@ -50,19 +77,14 @@ def delete_vehicle(vehicles):
     if confirm in ("y", "yes"):
         if name in vehicles:
             vehicles.remove(name)
-        print(f"You have REMOVED \"{name}\" as an authorized vehicle")
+            save_vehicles(vehicles)
+            print(f"You have REMOVED \"{name}\" as an authorized vehicle")
+        else:
+            print(f"\"{name}\" was not found in the list")
     print()
 
 def main():
-    allowed_vehicles = [
-        'Ford F-150',
-        'Chevrolet Silverado',
-        'Tesla CyberTruck',
-        'Toyota Tundra',
-        'Nissan Titan',
-        'Rivian R1T',
-        'Ram 1500'
-    ]
+    vehicles = load_vehicles()
 
     while True:
         display_banner()
@@ -70,16 +92,16 @@ def main():
         choice = input().strip()
 
         if choice == '1':
-            list_vehicles(allowed_vehicles)
+            list_vehicles(vehicles)
 
         elif choice == '2':
-            search_vehicle(allowed_vehicles)
+            search_vehicle(vehicles)
 
         elif choice == '3':
-            add_vehicle(allowed_vehicles)
+            add_vehicle(vehicles)
 
         elif choice == '4':
-            delete_vehicle(allowed_vehicles)
+            delete_vehicle(vehicles)
 
         elif choice == '5':
             print()
